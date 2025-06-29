@@ -9,6 +9,9 @@ struct LiquidGlassParameters {
         self.isChromaticAberrationEnabled = allEnabled
         self.isBlurEnabled = allEnabled
         self.isSmoothUnionEnabled = allEnabled
+        self.isShape1Enabled = true
+        self.isShape2Enabled = false
+        self.isShape3Enabled = false
     }
 
     var isGlassColorEnabled: Bool
@@ -31,6 +34,10 @@ struct LiquidGlassParameters {
 
     var isSmoothUnionEnabled: Bool
     var blend: Float = 100
+
+    var isShape1Enabled: Bool = true
+    var isShape2Enabled: Bool = false
+    var isShape3Enabled: Bool = false
     
     var shapes: [Shape] = [
         .init(
@@ -90,15 +97,15 @@ struct LiquidGlassParameters {
             .float(ambientStrength),
             .float(thickness),
             .float(refractiveIndex),
-            .float(shapes[0].type.rawValue),
+            .float(isShape1Enabled ? shapes[0].type.rawValue : 0.0),
             .float2(shapes[0].center(size: size)),
             .float2(shapes[0].size),
             .float(shapes[0].cornerRadius),
-            .float(shapes[1].type.rawValue),
+            .float(isShape2Enabled ? shapes[1].type.rawValue : 0.0),
             .float2(shapes[1].center(size: size)),
             .float2(shapes[1].size),
             .float(shapes[1].cornerRadius),
-            .float(shapes[2].type.rawValue),
+            .float(isShape3Enabled ? shapes[2].type.rawValue : 0.0),
             .float2(shapes[2].center(size: size)),
             .float2(shapes[2].size),
             .float(shapes[2].cornerRadius),

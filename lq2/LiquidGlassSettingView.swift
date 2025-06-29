@@ -104,31 +104,59 @@ struct LiquidGlassSettingView: View {
             DisclosureGroup(
                 isExpanded: $isShapesExpanded,
                 content: {
-                    Picker("Shape", selection: $selectedShapeIndex) {
-                        ForEach(parameters.shapes.indices, id: \.self) { index in
-                            Text("Shape \(index + 1)").tag(index)
+                    Section {
+                        Toggle("Shape 1", isOn: $parameters.isShape1Enabled)
+                    } header: {
+                        Text("Shape 1")
+                    }
+                    if parameters.isShape1Enabled {
+                        // Shape 1 settings
+                        Picker("Shape", selection: $selectedShapeIndex) {
+                            ForEach(parameters.shapes.indices, id: \.self) { index in
+                                Text("Shape \(index + 1)").tag(index)
+                            }
                         }
-                    }
-                    .pickerStyle(.segmented)
-                    
-                    Picker("Type", selection: $parameters.shapes[selectedShapeIndex].type) {
-                        ForEach(LiquidGlassParameters.ShapeType.allCases) { type in
-                            Text(type.name).tag(type)
+                        .pickerStyle(.segmented)
+                        
+                        Picker("Type", selection: $parameters.shapes[selectedShapeIndex].type) {
+                            ForEach(LiquidGlassParameters.ShapeType.allCases) { type in
+                                Text(type.name).tag(type)
+                            }
                         }
-                    }
-                    HStack(spacing: 16) {
-                        Text("Width")
-                        Slider(value: $parameters.shapes[selectedShapeIndex].size.width, in: 0...200)
-                    }
-                    HStack(spacing: 16) {
-                        Text("Height")
-                        Slider(value: $parameters.shapes[selectedShapeIndex].size.height, in: 0...200)
-                    }
-                    if parameters.shapes[selectedShapeIndex].type != .ellipse {
                         HStack(spacing: 16) {
-                            Text("Corner Radius")
-                            Slider(value: $parameters.shapes[selectedShapeIndex].cornerRadius, in: 0...Float(min(parameters.shapes[selectedShapeIndex].size.width, parameters.shapes[selectedShapeIndex].size.height) / 2))
+                            Text("Width")
+                            Slider(value: $parameters.shapes[selectedShapeIndex].size.width, in: 0...200)
                         }
+                        HStack(spacing: 16) {
+                            Text("Height")
+                            Slider(value: $parameters.shapes[selectedShapeIndex].size.height, in: 0...200)
+                        }
+                        if parameters.shapes[selectedShapeIndex].type != .ellipse {
+                            HStack(spacing: 16) {
+                                Text("Corner Radius")
+                                Slider(value: $parameters.shapes[selectedShapeIndex].cornerRadius, in: 0...Float(min(parameters.shapes[selectedShapeIndex].size.width, parameters.shapes[selectedShapeIndex].size.height) / 2))
+                            }
+                        }
+                    }
+
+                    Section {
+                        Toggle("Shape 2", isOn: $parameters.isShape2Enabled)
+                    } header: {
+                        Text("Shape 2")
+                    }
+                    if parameters.isShape2Enabled {
+                        // Shape 2 settings
+                        // ... (similar to Shape 1 settings, but for parameters.shapes[1])
+                    }
+
+                    Section {
+                        Toggle("Shape 3", isOn: $parameters.isShape3Enabled)
+                    } header: {
+                        Text("Shape 3")
+                    }
+                    if parameters.isShape3Enabled {
+                        // Shape 3 settings
+                        // ... (similar to Shape 1 settings, but for parameters.shapes[2])
                     }
                 },
                 label: {
