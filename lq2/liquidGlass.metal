@@ -9,45 +9,29 @@ float2x2 rotate2d(float angle) {
     return float2x2(cos(angle), -sin(angle), sin(angle), cos(angle));
 }
 
-half4 applyKawaseBlur(SwiftUI::Layer layer, float2 p, float2 uSize, float blurRadius) {
+constant float gaussian_kernel[25] = {
+    1.0/256.0,  4.0/256.0,  6.0/256.0,  4.0/256.0, 1.0/256.0,
+    4.0/256.0, 16.0/256.0, 24.0/256.0, 16.0/256.0, 4.0/256.0,
+    6.0/256.0, 24.0/256.0, 36.0/256.0, 24.0/256.0, 6.0/256.0,
+    4.0/256.0, 16.0/256.0, 24.0/256.0, 16.0/256.0, 4.0/256.0,
+    1.0/256.0,  4.0/256.0,  6.0/256.0,  4.0/256.0, 1.0/256.0
+};
+
+half4 applyGaussianBlur(SwiftUI::Layer layer, float2 p, float2 uSize, float blurRadius) {
     if (blurRadius < 0.001) {
         return layer.sample(p);
     }
-    
-    half4 color = half4(0.0);
-    float totalWeight = 0.0;
-    float2 texelSize = 1.0 / uSize;
-    float2 uv = p / uSize;
-    
-    float offset = blurRadius;
-    
-    float2 offsets1[4] = { float2(-offset, -offset), float2(offset, -offset), float2(-offset, offset), float2(offset, offset) };
-    for (int i = 0; i < 4; i++) {
-        float2 sampleUV = uv + offsets1[i] * texelSize;
-        color += layer.sample(sampleUV * uSize);
-        totalWeight += 1.0;
+
+    half4 sum = half4(0.0);
+
+    for (int i = -2; i <= 2; i++) {
+        for (int j = -2; j <= 2; j++) {
+            float2 offset = float2(float(i), float(j)) * blurRadius;
+            sum += layer.sample(p + offset) * gaussian_kernel[(i + 2) * 5 + (j + 2)];
+        }
     }
-    
-    float offset2 = offset * 1.5;
-    float2 offsets2[4] = { float2(0.0, -offset2), float2(0.0, offset2), float2(-offset2, 0.0), float2(offset2, 0.0) };
-    for (int i = 0; i < 4; i++) {
-        float2 sampleUV = uv + offsets2[i] * texelSize;
-        color += layer.sample(sampleUV * uSize) * 0.8;
-        totalWeight += 0.8;
-    }
-    
-    float offset3 = offset * 0.7;
-    float2 offsets3[4] = { float2(-offset3, 0.0), float2(offset3, 0.0), float2(0.0, -offset3), float2(0.0, offset3) };
-    for (int i = 0; i < 4; i++) {
-        float2 sampleUV = uv + offsets3[i] * texelSize;
-        color += layer.sample(sampleUV * uSize) * 0.6;
-        totalWeight += 0.6;
-    }
-    
-    color += layer.sample(p) * 2.0;
-    totalWeight += 2.0;
-    
-    return totalWeight > 0.0 ? color / totalWeight : layer.sample(p);
+
+    return sum;
 }
 
 // Calculate height/depth of the liquid surface
@@ -138,14 +122,14 @@ half4 calculateRefraction(
         float3 refractVecR = refract(incident, normal, 1.0 / iorR);
         float refractLengthR = (height + baseHeight) / max(0.001, abs(refractVecR.z));
         float2 refractedUVR = p + (refractVecR.xy * refractLengthR);
-        float red = applyKawaseBlur(layer, refractedUVR, uSize, blurRadius).r;
+        float red = applyGaussianBlur(layer, refractedUVR, uSize, blurRadius).r;
 
         // Green channel (we'll use this for the main displacement and alpha)
         float3 refractVecG = refract(incident, normal, 1.0 / iorG);
         float refractLengthG = (height + baseHeight) / max(0.001, abs(refractVecG.z));
         refractionDisplacement = refractVecG.xy * refractLengthG;
         float2 refractedUVG = p + refractionDisplacement;
-        half4 greenSample = applyKawaseBlur(layer, refractedUVG, uSize, blurRadius);
+        half4 greenSample = applyGaussianBlur(layer, refractedUVG, uSize, blurRadius);
         float green = greenSample.g;
         float bgAlpha = greenSample.a;
 
@@ -153,7 +137,7 @@ half4 calculateRefraction(
         float3 refractVecB = refract(incident, normal, 1.0 / iorB);
         float refractLengthB = (height + baseHeight) / max(0.001, abs(refractVecB.z));
         float2 refractedUVB = p + (refractVecB.xy * refractLengthB);
-        float blue = applyKawaseBlur(layer, refractedUVB, uSize, blurRadius).b;
+        float blue = applyGaussianBlur(layer, refractedUVB, uSize, blurRadius).b;
         
         refractColor = half4(red, green, blue, bgAlpha);
     } else {
@@ -162,7 +146,7 @@ half4 calculateRefraction(
         float refractLength = (height + baseHeight) / max(0.001, abs(refractVec.z));
         refractionDisplacement = refractVec.xy * refractLength;
         float2 refractedUV = p + refractionDisplacement;
-        refractColor = applyKawaseBlur(layer, refractedUV, uSize, blurRadius);
+        refractColor = applyGaussianBlur(layer, refractedUV, uSize, blurRadius);
     }
     
     return refractColor;
