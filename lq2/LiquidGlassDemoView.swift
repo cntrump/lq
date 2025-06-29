@@ -76,32 +76,13 @@ struct LiquidGlassDemoView: View {
 }
 
 
-
-
-
-extension GeometryProxy {
-    var center: CGPoint {
-        .init(x: size.width * 0.5, y: size.height * 0.5)
-    }
-}
-
-extension CGSize {
-    var point: CGPoint {
-        .init(x: width, y: height)
-    }
-}
-
-extension CGPoint {
-    func added(_ other: CGPoint) -> CGPoint {
-        .init(x: x + other.x, y: y + other.y)
-    }
-    
+fileprivate extension CGPoint {
     func rate(size: CGSize) -> CGPoint {
         .init(x: x / size.width, y: y / size.height)
     }
 }
 
-func distance(from: CGPoint, to: CGPoint) -> CGFloat {
+fileprivate func distance(from: CGPoint, to: CGPoint) -> CGFloat {
     sqrt(pow(from.x - to.x, 2) + pow(from.y - to.y, 2))
 }
 

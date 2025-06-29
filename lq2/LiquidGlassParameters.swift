@@ -69,7 +69,7 @@ struct LiquidGlassParameters {
     
     func liquidGlassShader(size: CGSize) -> Shader {
         ShaderLibrary.liquidGlass(
-            .float2(size.point),
+            .float2(.init(x: size.width, y: size.height)),
             .float(chromaticAberration),
             .color(glassColor),
             .float(lightAngle),
