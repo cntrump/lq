@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct LiquidGlassDemoView: View {
-    @State var parameters: LiquidGlassParameters = .init()
+    @State var parameters: LiquidGlassParameters = .init(allEnabled: false)
     @State var isSheetPresented: Bool = false
     @State private var draggingShapeIndex: Int? = nil
 
@@ -16,24 +16,33 @@ struct LiquidGlassDemoView: View {
         if isPad {
             NavigationSplitView {
                 LiquidGlassSettingView(parameters: $parameters)
+                    .navigationTitle("Settings")
+                    .navigationBarTitleDisplayMode(.large)
             } detail: {
                 liquidGlassView
             }
         } else {
-            liquidGlassView
-                .toolbar {
-                    ToolbarItem(placement: .bottomBar) {
-                        Button(action: {
-                            isSheetPresented = true
-                        }, label: {
-                            Image(systemName: "slider.horizontal.3")
-                        })
+            NavigationView {
+                liquidGlassView
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button(action: {
+                                isSheetPresented = true
+                            }, label: {
+                                Image(systemName: "slider.horizontal.3")
+                            })
+                        }
                     }
-                }
-                .sheet(isPresented: $isSheetPresented) {
-                    LiquidGlassSettingView(parameters: $parameters)
+                    .sheet(isPresented: $isSheetPresented) {
+                        NavigationView {
+                            LiquidGlassSettingView(parameters: $parameters)
+                                .navigationTitle("Settings")
+                                .navigationBarTitleDisplayMode(.inline)
+                        }
                         .presentationDetents([.medium])
-                }
+                        .presentationDragIndicator(.visible)
+                    }
+            }
         }
     }
     

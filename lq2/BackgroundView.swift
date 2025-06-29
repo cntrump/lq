@@ -25,3 +25,7 @@ struct BackgroundView: View {
         }
     }
 }
+
+#Preview {
+    BackgroundView()
+}

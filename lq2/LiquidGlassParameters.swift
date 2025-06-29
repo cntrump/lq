@@ -2,22 +2,35 @@
 import SwiftUI
 
 struct LiquidGlassParameters {
-    var chromaticAberration: Float = 0.0
+    init(allEnabled: Bool = true) {
+        self.isGlassColorEnabled = allEnabled
+        self.isLightingEnabled = allEnabled
+        self.isRefractionEnabled = allEnabled
+        self.isChromaticAberrationEnabled = allEnabled
+        self.isBlurEnabled = allEnabled
+        self.isSmoothUnionEnabled = allEnabled
+    }
+
+    var isGlassColorEnabled: Bool
     var glassColor: Color = .init(red: 0.2, green: 0.5, blue: 1, opacity: 0.3)
+
+    var isLightingEnabled: Bool
     var lightAngle: Float = 0.785398
     var lightIntensity: Float = 1.0
     var ambientStrength: Float = 0.1
+
+    var isRefractionEnabled: Bool
     var thickness: Float = 25
     var refractiveIndex: Float = 1.5
-    var blend: Float = 100
+
+    var isChromaticAberrationEnabled: Bool
+    var chromaticAberration: Float = 0.0
+
+    var isBlurEnabled: Bool
     var blurRadius: Float = 2.0
 
-    var isSmoothUnionEnabled: Bool = true
-    var isRefractionEnabled: Bool = true
-    var isChromaticAberrationEnabled: Bool = true
-    var isLightingEnabled: Bool = true
-    var isGlassColorEnabled: Bool = true
-    var isBlurEnabled: Bool = true
+    var isSmoothUnionEnabled: Bool
+    var blend: Float = 100
     
     var shapes: [Shape] = [
         .init(
