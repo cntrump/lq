@@ -113,7 +113,7 @@ struct LiquidGlassParameters {
     var thickness: Float = 25
     var refractiveIndex: Float = 1.5
     var blend: Float = 100
-    var blurRadius: Float = 0.0
+    var blurRadius: Float = 2.0
 
     var isSmoothUnionEnabled: Bool = true
     var isRefractionEnabled: Bool = true
