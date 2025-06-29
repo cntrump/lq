@@ -66,12 +66,12 @@ struct LiquieGlassDemoView: View {
                         .float(parameters.shapes[2].cornerRadius),
                         .float(parameters.blend),
                         .float(parameters.blurRadius),
-                        parameters.isSmoothUnionEnabled,
-                        parameters.isRefractionEnabled,
-                        parameters.isChromaticAberrationEnabled,
-                        parameters.isLightingEnabled,
-                        parameters.isGlassColorEnabled,
-                        parameters.isBlurEnabled
+                        .float(parameters.isSmoothUnionEnabled ? 1.0 : 0.0),
+                        .float(parameters.isRefractionEnabled ? 1.0 : 0.0),
+                        .float(parameters.isChromaticAberrationEnabled ? 1.0 : 0.0),
+                        .float(parameters.isLightingEnabled ? 1.0 : 0.0),
+                        .float(parameters.isGlassColorEnabled ? 1.0 : 0.0),
+                        .float(parameters.isBlurEnabled ? 1.0 : 0.0)
                     ),
                     maxSampleOffset: .zero
                 )
@@ -178,50 +178,96 @@ struct LiquidGlassSettingSheet: View {
     var body: some View {
         NavigationView {
             List {
-                Section("Effects") {
-                    Toggle("Smooth Union", isOn: $parameters.isSmoothUnionEnabled)
-                    Toggle("Refraction", isOn: $parameters.isRefractionEnabled)
-                    Toggle("Chromatic Aberration", isOn: $parameters.isChromaticAberrationEnabled)
-                    Toggle("Lighting", isOn: $parameters.isLightingEnabled)
+                Section {
                     Toggle("Glass Color", isOn: $parameters.isGlassColorEnabled)
-                    Toggle("Background Blur", isOn: $parameters.isBlurEnabled)
+                } header: {
+                    Text("Glass Color")
+                }
+                if parameters.isGlassColorEnabled {
+                    Section {
+                        ColorPicker("Glass Color", selection: $parameters.glassColor)
+                    }
                 }
 
-                Section("Global") {
-                    HStack(spacing: 16) {
-                        Text("Thickness")
-                        Slider(value: $parameters.thickness, in: 0...50)
-                    }
-                    HStack(spacing: 16) {
-                        Text("Refractive Index")
-                        Slider(value: $parameters.refractiveIndex, in: 1...2)
-                    }
-                    HStack(spacing: 16) {
-                        Text("Blend")
-                        Slider(value: $parameters.blend, in: 0...200)
-                    }
-                    HStack(spacing: 16) {
-                        Text("Chromatic Aberration")
-                        Slider(value: $parameters.chromaticAberration, in: 0...0.2)
-                    }
-                    HStack(spacing: 16) {
-                        Text("Blur Radius")
-                        Slider(value: $parameters.blurRadius, in: 0...4)
-                    }
-                    ColorPicker("Glass Color", selection: $parameters.glassColor)
+                Section {
+                    Toggle("Lighting", isOn: $parameters.isLightingEnabled)
+                } header: {
+                    Text("Lighting")
                 }
-                Section("Light") {
-                    HStack(spacing: 16) {
-                        Text("Angle")
-                        Slider(value: $parameters.lightAngle, in: 0...Float.pi * 2)
+                if parameters.isLightingEnabled {
+                    Section {
+                        HStack(spacing: 16) {
+                            Text("Angle")
+                            Slider(value: $parameters.lightAngle, in: 0...Float.pi * 2)
+                        }
+                        HStack(spacing: 16) {
+                            Text("Intensity")
+                            Slider(value: $parameters.lightIntensity, in: 0...2)
+                        }
+                        HStack(spacing: 16) {
+                            Text("Ambient Strength")
+                            Slider(value: $parameters.ambientStrength, in: 0...1)
+                        }
                     }
-                    HStack(spacing: 16) {
-                        Text("Intensity")
-                        Slider(value: $parameters.lightIntensity, in: 0...2)
+                }
+
+                Section {
+                    Toggle("Refraction", isOn: $parameters.isRefractionEnabled)
+                } header: {
+                    Text("Refraction")
+                }
+                if parameters.isRefractionEnabled {
+                    Section {
+                        HStack(spacing: 16) {
+                            Text("Thickness")
+                            Slider(value: $parameters.thickness, in: 0...50)
+                        }
+                        HStack(spacing: 16) {
+                            Text("Refractive Index")
+                            Slider(value: $parameters.refractiveIndex, in: 1...2)
+                        }
                     }
-                    HStack(spacing: 16) {
-                        Text("Ambient Strength")
-                        Slider(value: $parameters.ambientStrength, in: 0...1)
+                }
+
+                Section {
+                    Toggle("Chromatic Aberration", isOn: $parameters.isChromaticAberrationEnabled)
+                } header: {
+                    Text("Chromatic Aberration")
+                }
+                if parameters.isChromaticAberrationEnabled {
+                    Section {
+                        HStack(spacing: 16) {
+                            Text("Chromatic Aberration")
+                            Slider(value: $parameters.chromaticAberration, in: 0...0.2)
+                        }
+                    }
+                }
+
+                Section {
+                    Toggle("Background Blur", isOn: $parameters.isBlurEnabled)
+                } header: {
+                    Text("Background Blur")
+                }
+                if parameters.isBlurEnabled {
+                    Section {
+                        HStack(spacing: 16) {
+                            Text("Blur Radius")
+                            Slider(value: $parameters.blurRadius, in: 0...4)
+                        }
+                    }
+                }
+
+                Section {
+                    Toggle("Smooth Union", isOn: $parameters.isSmoothUnionEnabled)
+                } header: {
+                    Text("Smooth Union")
+                }
+                if parameters.isSmoothUnionEnabled {
+                    Section {
+                        HStack(spacing: 16) {
+                            Text("Blend")
+                            Slider(value: $parameters.blend, in: 0...200)
+                        }
                     }
                 }
                 
