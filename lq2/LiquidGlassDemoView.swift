@@ -6,7 +6,39 @@ struct LiquieGlassDemoView: View {
     @State var isSheetPresented: Bool = false
     @State private var draggingShapeIndex: Int? = nil
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    
+    private var isPad: Bool {
+        horizontalSizeClass == .regular
+    }
+
     var body: some View {
+        if isPad {
+            NavigationSplitView {
+                LiquidGlassSettingSheet(parameters: $parameters)
+            } detail: {
+                liquidGlassView
+            }
+        } else {
+            liquidGlassView
+                .toolbar {
+                    ToolbarItem(placement: .bottomBar) {
+                        Button(action: {
+                            isSheetPresented = true
+                        }, label: {
+                            Image(systemName: "slider.horizontal.3")
+                        })
+                    }
+                }
+                .sheet(isPresented: $isSheetPresented) {
+                    LiquidGlassSettingSheet(parameters: $parameters)
+                        .presentationDetents([.medium])
+                }
+        }
+    }
+    
+    @ViewBuilder
+    private var liquidGlassView: some View {
         GeometryReader { geometry in
             BackgroundView()
                 .gesture(drag(size: geometry.size))
@@ -39,19 +71,6 @@ struct LiquieGlassDemoView: View {
                 )
         }
         .ignoresSafeArea()
-        .toolbar {
-            ToolbarItem(placement: .bottomBar) {
-                Button(action: {
-                    isSheetPresented = true
-                }, label: {
-                    Image(systemName: "slider.horizontal.3")
-                })
-            }
-        }
-        .sheet(isPresented: $isSheetPresented) {
-            LiquidGlassSettingSheet(parameters: $parameters)
-                .presentationDetents([.medium])
-        }
     }
     
     private func drag(size: CGSize) -> some Gesture {
