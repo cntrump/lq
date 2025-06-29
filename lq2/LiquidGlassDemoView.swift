@@ -43,36 +43,7 @@ struct LiquidGlassDemoView: View {
             BackgroundView()
                 .gesture(drag(size: geometry.size))
                 .layerEffect(
-                    ShaderLibrary.liquidGlass(
-                        .float2(geometry.size.point),
-                        .float(parameters.chromaticAberration),
-                        .color(parameters.glassColor),
-                        .float(parameters.lightAngle),
-                        .float(parameters.lightIntensity),
-                        .float(parameters.ambientStrength),
-                        .float(parameters.thickness),
-                        .float(parameters.refractiveIndex),
-                        .float(parameters.shapes[0].type.rawValue),
-                        .float2(parameters.shapes[0].center(size: geometry.size)),
-                        .float2(parameters.shapes[0].size),
-                        .float(parameters.shapes[0].cornerRadius),
-                        .float(parameters.shapes[1].type.rawValue),
-                        .float2(parameters.shapes[1].center(size: geometry.size)),
-                        .float2(parameters.shapes[1].size),
-                        .float(parameters.shapes[1].cornerRadius),
-                        .float(parameters.shapes[2].type.rawValue),
-                        .float2(parameters.shapes[2].center(size: geometry.size)),
-                        .float2(parameters.shapes[2].size),
-                        .float(parameters.shapes[2].cornerRadius),
-                        .float(parameters.blend),
-                        .float(parameters.blurRadius),
-                        .float(parameters.isSmoothUnionEnabled ? 1.0 : 0.0),
-                        .float(parameters.isRefractionEnabled ? 1.0 : 0.0),
-                        .float(parameters.isChromaticAberrationEnabled ? 1.0 : 0.0),
-                        .float(parameters.isLightingEnabled ? 1.0 : 0.0),
-                        .float(parameters.isGlassColorEnabled ? 1.0 : 0.0),
-                        .float(parameters.isBlurEnabled ? 1.0 : 0.0)
-                    ),
+                    parameters.liquidGlassShader(size: geometry.size),
                     maxSampleOffset: .zero
                 )
         }

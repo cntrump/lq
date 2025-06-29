@@ -66,4 +66,37 @@ struct LiquidGlassParameters {
             }
         }
     }
+    
+    func liquidGlassShader(size: CGSize) -> Shader {
+        ShaderLibrary.liquidGlass(
+            .float2(size.point),
+            .float(chromaticAberration),
+            .color(glassColor),
+            .float(lightAngle),
+            .float(lightIntensity),
+            .float(ambientStrength),
+            .float(thickness),
+            .float(refractiveIndex),
+            .float(shapes[0].type.rawValue),
+            .float2(shapes[0].center(size: size)),
+            .float2(shapes[0].size),
+            .float(shapes[0].cornerRadius),
+            .float(shapes[1].type.rawValue),
+            .float2(shapes[1].center(size: size)),
+            .float2(shapes[1].size),
+            .float(shapes[1].cornerRadius),
+            .float(shapes[2].type.rawValue),
+            .float2(shapes[2].center(size: size)),
+            .float2(shapes[2].size),
+            .float(shapes[2].cornerRadius),
+            .float(blend),
+            .float(blurRadius),
+            .float(isSmoothUnionEnabled ? 1.0 : 0.0),
+            .float(isRefractionEnabled ? 1.0 : 0.0),
+            .float(isChromaticAberrationEnabled ? 1.0 : 0.0),
+            .float(isLightingEnabled ? 1.0 : 0.0),
+            .float(isGlassColorEnabled ? 1.0 : 0.0),
+            .float(isBlurEnabled ? 1.0 : 0.0)
+        )
+    }
 }
