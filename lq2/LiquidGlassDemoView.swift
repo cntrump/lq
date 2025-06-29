@@ -174,6 +174,7 @@ struct LiquidGlassParameters {
 struct LiquidGlassSettingSheet: View {
     @Binding var parameters: LiquidGlassParameters
     @State private var selectedShapeIndex = 0
+    @State private var isShapesExpanded: Bool = false
     
     var body: some View {
         NavigationView {
@@ -271,34 +272,40 @@ struct LiquidGlassSettingSheet: View {
                     }
                 }
                 
-                Section("Shapes") {
-                    Picker("Shape", selection: $selectedShapeIndex) {
-                        ForEach(parameters.shapes.indices, id: \.self) { index in
-                            Text("Shape \(index + 1)").tag(index)
+                DisclosureGroup(
+                    isExpanded: $isShapesExpanded,
+                    content: {
+                        Picker("Shape", selection: $selectedShapeIndex) {
+                            ForEach(parameters.shapes.indices, id: \.self) { index in
+                                Text("Shape \(index + 1)").tag(index)
+                            }
                         }
-                    }
-                    .pickerStyle(.segmented)
-                    
-                    Picker("Type", selection: $parameters.shapes[selectedShapeIndex].type) {
-                        ForEach(LiquidGlassParameters.ShapeType.allCases) { type in
-                            Text(type.name).tag(type)
+                        .pickerStyle(.segmented)
+                        
+                        Picker("Type", selection: $parameters.shapes[selectedShapeIndex].type) {
+                            ForEach(LiquidGlassParameters.ShapeType.allCases) { type in
+                                Text(type.name).tag(type)
+                            }
                         }
-                    }
-                    HStack(spacing: 16) {
-                        Text("Width")
-                        Slider(value: $parameters.shapes[selectedShapeIndex].size.width, in: 0...200)
-                    }
-                    HStack(spacing: 16) {
-                        Text("Height")
-                        Slider(value: $parameters.shapes[selectedShapeIndex].size.height, in: 0...200)
-                    }
-                    if parameters.shapes[selectedShapeIndex].type != .ellipse {
                         HStack(spacing: 16) {
-                            Text("Corner Radius")
-                            Slider(value: $parameters.shapes[selectedShapeIndex].cornerRadius, in: 0...Float(min(parameters.shapes[selectedShapeIndex].size.width, parameters.shapes[selectedShapeIndex].size.height) / 2))
+                            Text("Width")
+                            Slider(value: $parameters.shapes[selectedShapeIndex].size.width, in: 0...200)
                         }
+                        HStack(spacing: 16) {
+                            Text("Height")
+                            Slider(value: $parameters.shapes[selectedShapeIndex].size.height, in: 0...200)
+                        }
+                        if parameters.shapes[selectedShapeIndex].type != .ellipse {
+                            HStack(spacing: 16) {
+                                Text("Corner Radius")
+                                Slider(value: $parameters.shapes[selectedShapeIndex].cornerRadius, in: 0...Float(min(parameters.shapes[selectedShapeIndex].size.width, parameters.shapes[selectedShapeIndex].size.height) / 2))
+                            }
+                        }
+                    },
+                    label: {
+                        Text("Shapes")
                     }
-                }
+                )
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
