@@ -15,7 +15,7 @@ struct LiquidGlassDemoView: View {
     var body: some View {
         if isPad {
             NavigationSplitView {
-                LiquidGlassSettingSheet(parameters: $parameters)
+                LiquidGlassSettingView(parameters: $parameters)
             } detail: {
                 liquidGlassView
             }
@@ -31,7 +31,7 @@ struct LiquidGlassDemoView: View {
                     }
                 }
                 .sheet(isPresented: $isSheetPresented) {
-                    LiquidGlassSettingSheet(parameters: $parameters)
+                    LiquidGlassSettingView(parameters: $parameters)
                         .presentationDetents([.medium])
                 }
         }
@@ -135,7 +135,7 @@ func distance(from: CGPoint, to: CGPoint) -> CGFloat {
 }
 
 #Preview {
-    LiquieGlassDemoView()
+    LiquidGlassDemoView()
 }
 
 
