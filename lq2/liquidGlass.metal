@@ -192,7 +192,6 @@ half4 renderLiquidGlass(
     float foregroundAlpha,
     float blurRadius,
     float isRefractionEnabled,
-    float isChromaticAberrationEnabled,
     float isLightingEnabled,
     float isGlassColorEnabled,
     float isBlurEnabled
@@ -213,7 +212,7 @@ half4 renderLiquidGlass(
     float2 refractionDisplacement;
     half4 refractColor;
     if (isRefractionEnabled > 0.5) {
-        refractColor = calculateRefraction(p, normal, height, thickness, refractiveIndex, isChromaticAberrationEnabled > 0.5 ? chromaticAberration : 0.0, uSize, layer, isBlurEnabled > 0.5 ? blurRadius : 0.0, refractionDisplacement);
+        refractColor = calculateRefraction(p, normal, height, thickness, refractiveIndex, chromaticAberration, uSize, layer, isBlurEnabled > 0.5 ? blurRadius : 0.0, refractionDisplacement);
     } else {
         refractColor = layer.sample(p);
     }
@@ -317,7 +316,6 @@ float getShapeSDF(float type, float2 p, float2 center, float2 size, float r) {
     float blurRadius,
     float isSmoothUnionEnabled,
     float isRefractionEnabled,
-    float isChromaticAberrationEnabled,
     float isLightingEnabled,
     float isGlassColorEnabled,
     float isBlurEnabled
@@ -357,7 +355,6 @@ float getShapeSDF(float type, float2 p, float2 center, float2 size, float r) {
         foregroundAlpha,
         blurRadius,
         isRefractionEnabled,
-        isChromaticAberrationEnabled,
         isLightingEnabled,
         isGlassColorEnabled,
         isBlurEnabled

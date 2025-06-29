@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct LiquidGlassDemoView: View {
-    @State var parameters: LiquidGlassParameters = .init(allEnabled: false)
+    @State var parameters: LiquidGlassParameters = .init()
     @State var isSheetPresented: Bool = false
     @State private var draggingShapeIndex: Int? = nil
 
@@ -18,6 +18,15 @@ struct LiquidGlassDemoView: View {
                 LiquidGlassSettingView(parameters: $parameters)
                     .navigationTitle("Settings")
                     .navigationBarTitleDisplayMode(.large)
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(action: {
+                                parameters.minimumize()
+                            }, label: {
+                                Image(systemName: "eraser")
+                            })
+                        }
+                    }
             } detail: {
                 liquidGlassView
             }
@@ -28,6 +37,13 @@ struct LiquidGlassDemoView: View {
                         ToolbarItem(placement: .topBarLeading) {
                             Button(action: {
                                 isSheetPresented = true
+                            }, label: {
+                                Image(systemName: "slider.horizontal.3")
+                            })
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button(action: {
+                                parameters.minimumize()
                             }, label: {
                                 Image(systemName: "slider.horizontal.3")
                             })
