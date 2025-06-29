@@ -190,7 +190,12 @@ half4 renderLiquidGlass(
     SwiftUI::Layer layer,
     float3 normal,
     float foregroundAlpha,
-    float blurRadius
+    float blurRadius,
+    bool isRefractionEnabled,
+    bool isChromaticAberrationEnabled,
+    bool isLightingEnabled,
+    bool isGlassColorEnabled,
+    bool isBlurEnabled
 ) {
     // If we're completely outside the glass area (with smooth transition)
     if (foregroundAlpha < 0.001) {
@@ -206,16 +211,21 @@ half4 renderLiquidGlass(
     
     // Calculate refraction & chromatic aberration with blur applied to the sampling
     float2 refractionDisplacement;
-    half4 refractColor = calculateRefraction(p, normal, height, thickness, refractiveIndex, chromaticAberration, uSize, layer, blurRadius, refractionDisplacement);
+    half4 refractColor;
+    if (isRefractionEnabled) {
+        refractColor = calculateRefraction(p, normal, height, thickness, refractiveIndex, isChromaticAberrationEnabled ? chromaticAberration : 0.0, uSize, layer, isBlurEnabled ? blurRadius : 0.0, refractionDisplacement);
+    } else {
+        refractColor = layer.sample(p);
+    }
     
     // Mix refraction and reflection based on normal.z
     half4 liquidColor = refractColor;
     
     // Calculate lighting effects
-    float3 lighting = calculateLighting(normal, height, refractionDisplacement, thickness, lightAngle, lightIntensity, ambientStrength);
+    float3 lighting = isLightingEnabled ? calculateLighting(normal, height, refractionDisplacement, thickness, lightAngle, lightIntensity, ambientStrength) : float3(0.0);
     
     // Apply realistic glass color influence
-    half4 finalColor = applyGlassColor(liquidColor, glassColor);
+    half4 finalColor = isGlassColorEnabled ? applyGlassColor(liquidColor, glassColor) : liquidColor;
     
     // Add lighting effects to final color
     finalColor.rgb += half3(lighting);
@@ -304,13 +314,19 @@ float getShapeSDF(float type, float2 p, float2 center, float2 size, float r) {
     float2 shape3Size,
     float shape3CornerRadius,
     float blend,
-    float blurRadius
+    float blurRadius,
+    bool isSmoothUnionEnabled,
+    bool isRefractionEnabled,
+    bool isChromaticAberrationEnabled,
+    bool isLightingEnabled,
+    bool isGlassColorEnabled,
+    bool isBlurEnabled
 ) {
     // Scene SDF
     float d1 = getShapeSDF(shape1Type, position, shape1Center, shape1Size, shape1CornerRadius);
     float d2 = getShapeSDF(shape2Type, position, shape2Center, shape2Size, shape2CornerRadius);
     float d3 = getShapeSDF(shape3Type, position, shape3Center, shape3Size, shape3CornerRadius);
-    float sd = smoothUnion(smoothUnion(d1, d2, blend), d3, blend);
+    float sd = isSmoothUnionEnabled ? smoothUnion(smoothUnion(d1, d2, blend), d3, blend) : min(min(d1, d2), d3);
 
     // Normal
     float dx = dfdx(sd);
@@ -339,6 +355,11 @@ float getShapeSDF(float type, float2 p, float2 center, float2 size, float r) {
         layer,
         normal,
         foregroundAlpha,
-        blurRadius
+        blurRadius,
+        isRefractionEnabled,
+        isChromaticAberrationEnabled,
+        isLightingEnabled,
+        isGlassColorEnabled,
+        isBlurEnabled
     );
 }

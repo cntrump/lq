@@ -65,7 +65,13 @@ struct LiquieGlassDemoView: View {
                         .float2(parameters.shapes[2].size),
                         .float(parameters.shapes[2].cornerRadius),
                         .float(parameters.blend),
-                        .float(parameters.blurRadius)
+                        .float(parameters.blurRadius),
+                        parameters.isSmoothUnionEnabled,
+                        parameters.isRefractionEnabled,
+                        parameters.isChromaticAberrationEnabled,
+                        parameters.isLightingEnabled,
+                        parameters.isGlassColorEnabled,
+                        parameters.isBlurEnabled
                     ),
                     maxSampleOffset: .zero
                 )
@@ -108,6 +114,13 @@ struct LiquidGlassParameters {
     var refractiveIndex: Float = 1.5
     var blend: Float = 100
     var blurRadius: Float = 0.0
+
+    var isSmoothUnionEnabled: Bool = true
+    var isRefractionEnabled: Bool = true
+    var isChromaticAberrationEnabled: Bool = true
+    var isLightingEnabled: Bool = true
+    var isGlassColorEnabled: Bool = true
+    var isBlurEnabled: Bool = true
     
     var shapes: [Shape] = [
         .init(
@@ -165,6 +178,15 @@ struct LiquidGlassSettingSheet: View {
     var body: some View {
         NavigationView {
             List {
+                Section("Effects") {
+                    Toggle("Smooth Union", isOn: $parameters.isSmoothUnionEnabled)
+                    Toggle("Refraction", isOn: $parameters.isRefractionEnabled)
+                    Toggle("Chromatic Aberration", isOn: $parameters.isChromaticAberrationEnabled)
+                    Toggle("Lighting", isOn: $parameters.isLightingEnabled)
+                    Toggle("Glass Color", isOn: $parameters.isGlassColorEnabled)
+                    Toggle("Background Blur", isOn: $parameters.isBlurEnabled)
+                }
+
                 Section("Global") {
                     HStack(spacing: 16) {
                         Text("Thickness")
