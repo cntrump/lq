@@ -10,12 +10,14 @@
 		144F2E492E10D14F00CC8060 /* ARCHITECTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = 144F2E472E10D14F00CC8060 /* ARCHITECTURE.md */; };
 		144F2E4A2E10D14F00CC8060 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 144F2E482E10D14F00CC8060 /* README.md */; };
 		144F2EBC2E122F7300CC8060 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 144F2EBB2E122F7300CC8060 /* LICENSE */; };
+		144F2EBE2E12348D00CC8060 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = 144F2EBD2E12348D00CC8060 /* screenshot.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		144F2E472E10D14F00CC8060 /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
 		144F2E482E10D14F00CC8060 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		144F2EBB2E122F7300CC8060 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		144F2EBD2E12348D00CC8060 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		14F184022E0D77D800BB87F4 /* LiquidGlass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiquidGlass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -42,9 +44,10 @@
 			isa = PBXGroup;
 			children = (
 				14F184042E0D77D800BB87F4 /* LiquidGlass */,
-				144F2E472E10D14F00CC8060 /* ARCHITECTURE.md */,
 				144F2E482E10D14F00CC8060 /* README.md */,
+				144F2EBD2E12348D00CC8060 /* screenshot.png */,
 				144F2EBB2E122F7300CC8060 /* LICENSE */,
+				144F2E472E10D14F00CC8060 /* ARCHITECTURE.md */,
 				14F184032E0D77D800BB87F4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -124,6 +127,7 @@
 				144F2EBC2E122F7300CC8060 /* LICENSE in Resources */,
 				144F2E492E10D14F00CC8060 /* ARCHITECTURE.md in Resources */,
 				144F2E4A2E10D14F00CC8060 /* README.md in Resources */,
+				144F2EBE2E12348D00CC8060 /* screenshot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
