@@ -3,7 +3,7 @@ import SwiftUI
 
 struct LiquidGlassParameters {
     var isGlassColorEnabled: Bool = true
-    var glassColor: Color = .init(red: 1, green: 1, blue: 1, opacity: 0.4)
+    var glassColor: Color = .init(red: 1, green: 1, blue: 1, opacity: 0.6)
 
     var isLightingEnabled: Bool = true
     var lightAngle: Float = 0.785398
@@ -29,16 +29,16 @@ struct LiquidGlassParameters {
             cornerRadius: 80
         ),
         .init(
-            type: .squircle,
+            type: .roundedRectangle,
             position: .init(x: 0.2, y: 0.8),
-            size: .init(width: 100, height: 100),
-            cornerRadius: 50
+            size: .init(width: 160, height: 80),
+            cornerRadius: 40
         ),
         .init(
-            type: .squircle,
+            type: .ellipse,
             position: .init(x: 0.8, y: 0.2),
             size: .init(width: 150, height: 150),
-            cornerRadius: 75
+            cornerRadius: 0
         )
     ]
     

@@ -8,52 +8,24 @@ struct LiquidGlassDemoView: View {
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
-    private var isPad: Bool {
-        horizontalSizeClass == .regular
-    }
-
     var body: some View {
-        if isPad {
+        if horizontalSizeClass == .regular {
+            // iPad
             NavigationSplitView {
-                LiquidGlassSettingView(parameters: $parameters)
-                    .navigationTitle("Settings")
-                    .navigationBarTitleDisplayMode(.large)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(action: {
-                                parameters.minimumize()
-                            }, label: {
-                                Image(systemName: "eraser")
-                            })
-                        }
-                    }
+                settingsView(titleDisplayMode: .large)
             } detail: {
                 liquidGlassView
             }
         } else {
+            // iPhone
             NavigationView {
                 liquidGlassView
                     .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            Button(action: {
-                                isSheetPresented = true
-                            }, label: {
-                                Image(systemName: "slider.horizontal.3")
-                            })
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button(action: {
-                                parameters.minimumize()
-                            }, label: {
-                                Image(systemName: "slider.horizontal.3")
-                            })
-                        }
+                        presentSheetItem
                     }
                     .sheet(isPresented: $isSheetPresented) {
                         NavigationView {
-                            LiquidGlassSettingView(parameters: $parameters)
-                                .navigationTitle("Settings")
-                                .navigationBarTitleDisplayMode(.inline)
+                            settingsView(titleDisplayMode: .inline)
                         }
                         .presentationDetents([.medium])
                         .presentationDragIndicator(.visible)
@@ -64,16 +36,49 @@ struct LiquidGlassDemoView: View {
     
     @ViewBuilder
     private var liquidGlassView: some View {
-        GeometryReader { geometry in
+        GeometryReader { proxy in
             BackgroundView()
-                .gesture(drag(size: geometry.size))
+                .position(
+                    x: proxy.frame(in: .local).midX,
+                    y: proxy.frame(in: .local).midY
+                )
+                .gesture(drag(size: proxy.size))
                 .layerEffect(
-                    parameters.liquidGlassShader(size: geometry.size),
+                    parameters.liquidGlassShader(size: proxy.size),
                     maxSampleOffset: .zero
                 )
         }
         .ignoresSafeArea()
     }
+    
+    
+    @ViewBuilder
+    private func settingsView(titleDisplayMode: NavigationBarItem.TitleDisplayMode) -> some View {
+        LiquidGlassSettingView(parameters: $parameters)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        parameters.minimumize()
+                    }, label: {
+                        Image(systemName: "minus.circle")
+                    })
+                }
+            }
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(titleDisplayMode)
+    }
+    
+    @ToolbarContentBuilder
+    private var presentSheetItem: some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Button(action: {
+                isSheetPresented = true
+            }, label: {
+                Image(systemName: "slider.horizontal.3")
+            })
+        }
+    }
+    
     
     private func drag(size: CGSize) -> some Gesture {
         DragGesture(minimumDistance: 0)

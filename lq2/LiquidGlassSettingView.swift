@@ -20,28 +20,6 @@ struct LiquidGlassSettingView: View {
             }
             
             Section {
-                Toggle("Lighting", isOn: $parameters.isLightingEnabled)
-                if parameters.isLightingEnabled {
-                    Section {
-                        HStack(spacing: 16) {
-                            Text("Angle")
-                            Slider(value: $parameters.lightAngle, in: 0...Float.pi * 2)
-                        }
-                        HStack(spacing: 16) {
-                            Text("Intensity")
-                            Slider(value: $parameters.lightIntensity, in: 0...2)
-                        }
-                        HStack(spacing: 16) {
-                            Text("Ambient Strength")
-                            Slider(value: $parameters.ambientStrength, in: 0...1)
-                        }
-                    }
-                }
-            } header: {
-                Text("Lighting")
-            }
-            
-            Section {
                 Toggle("Refraction", isOn: $parameters.isRefractionEnabled)
                 if parameters.isRefractionEnabled {
                     Section {
@@ -61,6 +39,28 @@ struct LiquidGlassSettingView: View {
                 }
             } header: {
                 Text("Refraction")
+            }
+            
+            Section {
+                Toggle("Lighting", isOn: $parameters.isLightingEnabled)
+                if parameters.isLightingEnabled {
+                    Section {
+                        HStack(spacing: 16) {
+                            Text("Angle")
+                            Slider(value: $parameters.lightAngle, in: 0...Float.pi * 2)
+                        }
+                        HStack(spacing: 16) {
+                            Text("Intensity")
+                            Slider(value: $parameters.lightIntensity, in: 0...2)
+                        }
+                        HStack(spacing: 16) {
+                            Text("Ambient Strength")
+                            Slider(value: $parameters.ambientStrength, in: 0...1)
+                        }
+                    }
+                }
+            } header: {
+                Text("Lighting")
             }
             
             Section {
