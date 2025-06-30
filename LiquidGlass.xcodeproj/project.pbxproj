@@ -14,13 +14,13 @@
 /* Begin PBXFileReference section */
 		144F2E472E10D14F00CC8060 /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
 		144F2E482E10D14F00CC8060 /* GEMINI.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = GEMINI.md; sourceTree = "<group>"; };
-		14F184022E0D77D800BB87F4 /* lq2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lq2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		14F184022E0D77D800BB87F4 /* LiquidGlass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LiquidGlass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		14F184042E0D77D800BB87F4 /* lq2 */ = {
+		14F184042E0D77D800BB87F4 /* LiquidGlass */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = lq2;
+			path = LiquidGlass;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -39,7 +39,7 @@
 		14F183F92E0D77D800BB87F4 = {
 			isa = PBXGroup;
 			children = (
-				14F184042E0D77D800BB87F4 /* lq2 */,
+				14F184042E0D77D800BB87F4 /* LiquidGlass */,
 				144F2E472E10D14F00CC8060 /* ARCHITECTURE.md */,
 				144F2E482E10D14F00CC8060 /* GEMINI.md */,
 				14F184032E0D77D800BB87F4 /* Products */,
@@ -49,7 +49,7 @@
 		14F184032E0D77D800BB87F4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				14F184022E0D77D800BB87F4 /* lq2.app */,
+				14F184022E0D77D800BB87F4 /* LiquidGlass.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -57,9 +57,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		14F184012E0D77D800BB87F4 /* lq2 */ = {
+		14F184012E0D77D800BB87F4 /* LiquidGlass */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 14F1840D2E0D77D900BB87F4 /* Build configuration list for PBXNativeTarget "lq2" */;
+			buildConfigurationList = 14F1840D2E0D77D900BB87F4 /* Build configuration list for PBXNativeTarget "LiquidGlass" */;
 			buildPhases = (
 				14F183FE2E0D77D800BB87F4 /* Sources */,
 				14F183FF2E0D77D800BB87F4 /* Frameworks */,
@@ -70,13 +70,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				14F184042E0D77D800BB87F4 /* lq2 */,
+				14F184042E0D77D800BB87F4 /* LiquidGlass */,
 			);
-			name = lq2;
+			name = LiquidGlass;
 			packageProductDependencies = (
 			);
 			productName = lq2;
-			productReference = 14F184022E0D77D800BB87F4 /* lq2.app */;
+			productReference = 14F184022E0D77D800BB87F4 /* LiquidGlass.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -94,7 +94,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 14F183FD2E0D77D800BB87F4 /* Build configuration list for PBXProject "lq2" */;
+			buildConfigurationList = 14F183FD2E0D77D800BB87F4 /* Build configuration list for PBXProject "LiquidGlass" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -108,7 +108,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				14F184012E0D77D800BB87F4 /* lq2 */,
+				14F184012E0D77D800BB87F4 /* LiquidGlass */,
 			);
 		};
 /* End PBXProject section */
@@ -322,7 +322,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		14F183FD2E0D77D800BB87F4 /* Build configuration list for PBXProject "lq2" */ = {
+		14F183FD2E0D77D800BB87F4 /* Build configuration list for PBXProject "LiquidGlass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14F1840B2E0D77D900BB87F4 /* Debug */,
@@ -331,7 +331,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		14F1840D2E0D77D900BB87F4 /* Build configuration list for PBXNativeTarget "lq2" */ = {
+		14F1840D2E0D77D900BB87F4 /* Build configuration list for PBXNativeTarget "LiquidGlass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				14F1840E2E0D77D900BB87F4 /* Debug */,
