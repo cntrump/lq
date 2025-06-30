@@ -11,7 +11,7 @@ struct LiquidGlassParameters {
     var ambientStrength: Float = 0.1
 
     var isRefractionEnabled: Bool = true
-    var thickness: Float = 25
+    var thickness: Float = 20
     var refractiveIndex: Float = 1.5
     var chromaticAberration: Float = 0.0
 
