@@ -209,12 +209,17 @@ half4 renderLiquidGlass(
     float height = getHeight(sd, thickness);
     
     // Calculate refraction & chromatic aberration with blur applied to the sampling
-    float2 refractionDisplacement;
+    float2 refractionDisplacement = float2(0.0);
     half4 refractColor;
     if (isRefractionEnabled > 0.5) {
         refractColor = calculateRefraction(p, normal, height, thickness, refractiveIndex, chromaticAberration, uSize, layer, isBlurEnabled > 0.5 ? blurRadius : 0.0, refractionDisplacement);
     } else {
-        refractColor = layer.sample(p);
+        // If refraction is disabled, still apply blur if it's enabled.
+        if (isBlurEnabled > 0.5) {
+            refractColor = applyGaussianBlur(layer, p, uSize, blurRadius);
+        } else {
+            refractColor = layer.sample(p);
+        }
     }
     
     // Mix refraction and reflection based on normal.z
