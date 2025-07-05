@@ -51,7 +51,7 @@ struct LiquidGlassSettingView: View {
                         }
                         HStack(spacing: 16) {
                             Text("Intensity")
-                            Slider(value: $parameters.lightIntensity, in: 0...2)
+                            Slider(value: $parameters.lightIntensity, in: 0...5)
                         }
                         HStack(spacing: 16) {
                             Text("Ambient Strength")
